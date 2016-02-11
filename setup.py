@@ -3,10 +3,15 @@
 from setuptools import setup, find_packages, Extension
 from glob import glob
 
+old = glob('WiringPi/devLib/*Old.c')
+
+
+
 _wiringpi2 = Extension(
     '_wiringpi2',
     include_dirs=['WiringPi/wiringPi','WiringPi/devLib'],
-    sources=glob('WiringPi/devLib/*.c')+glob('WiringPi/wiringPi/*.c')+['wiringpi_wrap.c']
+    sources=filter(lambda x: x not in old, glob('WiringPi/devLib/*.c'))
+            +glob('WiringPi/wiringPi/*.c')+['wiringpi_wrap.c']
 )
 
 setup(
